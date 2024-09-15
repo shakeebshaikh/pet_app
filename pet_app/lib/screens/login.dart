@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_app/screens/signup.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,6 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool showPassword = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -15,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.sizeOf(context).height / 1.3,
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,8 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
                     label: const Text('Password'),
                     prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: const Icon(Icons.remove_red_eye)
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                        showPassword = !showPassword;
+                        });
+                      },
+                      child: Icon( showPassword ? Icons.visibility : Icons.visibility_off)),
                   ),
+                  obscureText: showPassword? true : false,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -55,14 +64,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: (){}, 
                   child:const Text('Login',style: TextStyle(color: Colors.white),),),
                 ),
-                RichText(
-                text: const TextSpan(text: 'Don\'t have an account? ',
-                style: TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(
-                    text: 'Register',style: TextStyle(color: Color.fromRGBO(31, 147, 238, 1))
-                  ),
-                ]),),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return const SignUp();
+                      },)
+                    );
+                  },
+                  child: RichText(
+                  text: const TextSpan(text: 'Don\'t have an account? ',
+                  style: TextStyle(color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: 'Register',style: TextStyle(color: Color.fromRGBO(31, 147, 238, 1))
+                    ),
+                  ]),),
+                ),
               ],
             ),
           ),
